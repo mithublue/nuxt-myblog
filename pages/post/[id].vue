@@ -1,7 +1,7 @@
 <script setup>
 const params = useRoute().params;
 const config = useRuntimeConfig();
-const {data:single} = useFetch(config.public.wordpressUrl,{
+const {data:single} = await useFetch(config.public.wordpressUrl,{
   method: 'post',
   body: {
     query: `query NewQuery {

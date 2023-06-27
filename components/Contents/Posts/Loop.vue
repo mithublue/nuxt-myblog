@@ -6,7 +6,7 @@
     </NuxtLink>
     <div class="bg-white flex flex-col justify-start p-6">
       <template v-for="category in post.categories.edges">
-        <NuxtLink :to="'categories/' + category.node.databaseId" class="text-blue-700 text-sm font-bold uppercase pb-4">
+        <NuxtLink :to="'/category/' + category.node.name" class="text-blue-700 text-sm font-bold uppercase pb-4">
           {{ category.node.name }}
         </NuxtLink>
       </template>
