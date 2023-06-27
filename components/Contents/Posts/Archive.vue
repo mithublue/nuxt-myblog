@@ -64,7 +64,7 @@ const query = `query NewQuery {
     }
   }
 }`;
-const {data : maindata} = useFetch(config.public.wordpressUrl,{
+const {data : maindata} = await useFetch(config.public.wordpressUrl,{
   method: 'post',
   body: {
     query: query
