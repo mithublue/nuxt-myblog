@@ -60,6 +60,7 @@
     </nav>
 
     <div class="container mx-auto flex flex-wrap py-6">
+      <NuxtLoadingIndicator color="#1D4ED8"/>
       <slot/>
     </div>
 <!--    <footer class="w-full border-t bg-white pb-12">
