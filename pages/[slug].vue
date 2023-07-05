@@ -1,23 +1,11 @@
 <script setup>
 const params = useRoute().params;
 const config = useRuntimeConfig();
-const {data:single} = useFetch(config.public.wordpressUrl,{
-  method: 'post',
-  body: {
-    query: `query NewQuery {
-  post(
-    id: "` + params.id + `"
-    idType: DATABASE_ID
-  ) {
+const query = `query MyQuery {
+  page(id: "` + params.slug + `", idType: URI) {
     id
+    slug
     content
-    categories {
-      nodes {
-        name
-        link
-        slug
-      }
-    }
     author {
       node {
         firstName
@@ -27,16 +15,6 @@ const {data:single} = useFetch(config.public.wordpressUrl,{
     }
     date
     databaseId
-    next {
-      title
-      slug
-    }
-    slug
-    title
-    previous {
-      title
-      slug
-    }
     commentCount
     comments(first: 10) {
       nodes {
@@ -82,30 +60,25 @@ const {data:single} = useFetch(config.public.wordpressUrl,{
       }
     }
   }
-}`
+}`;
+const {data:single} = await useFetch(config.public.wordpressUrl,{
+  method: 'post',
+  body: {
+    query: query
   },
   transform(data) {
     return data.data;
   }
 });
+console.log(query);
 </script>
 <template>
   <!-- Post Section -->
   <section class="w-full md:w-2/3 flex flex-col items-center px-3">
-    <template v-if="single.post">
-      <ContentsPostSingle :post="single.post"></ContentsPostSingle>
-      <div class="w-full flex pt-6">
-        <NuxtLink v-if="single.post.previous" :to="single.post.previous.slug" class="w-1/2 bg-white shadow hover:shadow-md text-left p-6">
-          <p class="text-lg text-blue-800 font-bold flex items-center"><i class="fas fa-arrow-left pr-1"></i> Previous</p>
-          <p class="pt-2">{{ single.post.previous.title }}</p>
-        </NuxtLink>
-        <NuxtLink v-if="single.post.next" :to="single.post.next.slug" class="w-1/2 bg-white shadow hover:shadow-md text-right p-6">
-          <p class="text-lg text-blue-800 font-bold flex items-center justify-end">Next <i class="fas fa-arrow-right pl-1"></i></p>
-          <p class="pt-2">{{ single.post.next.title }}</p>
-        </NuxtLink>
-      </div>
-      <template v-if="single.post.commentCount">
-        <div v-for="(comment,c) in single.post.comments.nodes" class="w-full flex flex-col text-center md:text-left md:flex-row shadow bg-white mt-10 mb-10 p-6">
+    <template v-if="single.page">
+      <ContentsPostSingle :post="single.page"></ContentsPostSingle>
+      <template v-if="single.page.commentCount">
+        <div v-for="(comment,c) in single.page.comments.nodes" class="w-full flex flex-col text-center md:text-left md:flex-row shadow bg-white mt-10 mb-10 p-6">
           <div class="w-full md:w-1/5 flex justify-center md:justify-start pb-4">
             <img :src="comment.author.node.avatar ? comment.author.node.avatar.default : '~/assets/images/avatar.jpg'" class="rounded-full shadow h-32 w-32">
           </div>
