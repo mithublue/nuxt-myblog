@@ -13,7 +13,10 @@ export default defineNuxtConfig({
           content: 'my website description'
         }
       ],
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+      link: [
+          { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
+          { rel: 'stylesheet', type: 'text/css', href: '/assets/css/block-library/style.min.css' }
+      ]
     }
   },
   modules: [
@@ -21,7 +24,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      wordpressUrl: 'http://localhost/mysite/blog.cybercraftit.com/graphql'
+      wordpressUrl: 'http://blog.cybercraftit.com/graphql'
     }
   }
 })
